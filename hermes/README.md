@@ -41,8 +41,8 @@
 
 - Windows PC (알려주신 사양: RTX 3090 24GB, RAM 32GB)
 - **Anthropic API 키**
-  - Anthropic Console(console.anthropic.com)에서 발급합니다.
-  - "symedi-claude 계정"이 Anthropic Console의 계정이나 워크스페이스라면 거기서 키를 만들고, 월 사용 한도를 걸어 두세요.
+  - `symedi-claude`는 헤르메스 안의 프로필 이름입니다. Claude 연결은 별도의 API 키로 합니다.
+  - Anthropic Console(console.anthropic.com)에서 헤르메스용 키를 발급하고, 월 사용 한도를 걸어 두세요. n8n용 키는 2주차에 따로 만듭니다.
   - **Claude Pro 구독으로는 헤르메스에 연결할 수 없습니다.** 헤르메스 문서에 따르면 구독 로그인은 Claude Max + 추가 사용량 크레딧인 경우에만 됩니다. 그 외에는 API 키(사용량 과금)를 씁니다.
 - git (없으면 헤르메스 설치 스크립트가 함께 설치하거나, 저장소를 ZIP으로 받아도 됩니다)
 - LM Studio + Qwen 3.8 27B Q4 (선택, 7단계)
@@ -162,10 +162,10 @@ hermes -p symedi-claude chat
 
 ## 11. (선택) 주간 예약 작업
 
-매주 월요일 07:30에 주제 후보를 만드는 작업을 **멈춤 상태로** 등록합니다. 한 번 직접 실행해 보고 결과가 괜찮을 때만 켭니다.
+PC를 밤에도 켜 두시므로, 매주 월요일 **새벽 05:30**에 주제 후보를 만들어 두는 작업을 등록합니다. 출근해서 바로 확인할 수 있습니다. 처음에는 **멈춤 상태로** 등록하고, 한 번 직접 실행해 결과가 괜찮을 때만 켭니다.
 
 ```powershell
-hermes -p symedi-claude cron create "30 7 * * 1" "이번 주 콘텐츠 주제 후보를 정리해 topics 폴더에 저장하세요." --skill symedi-topic-candidates --name "주간 주제 후보" --provider anthropic --model claude-sonnet-5 --workdir "$HOME\SY-Medi-work" --paused
+hermes -p symedi-claude cron create "30 5 * * 1" "이번 주 콘텐츠 주제 후보를 정리해 topics 폴더에 저장하세요." --skill symedi-topic-candidates --name "주간 주제 후보" --provider anthropic --model claude-sonnet-5 --workdir "$HOME\SY-Medi-work" --paused
 hermes -p symedi-claude cron list
 ```
 
@@ -175,7 +175,10 @@ hermes -p symedi-claude cron list
 hermes -p symedi-claude gateway install
 ```
 
-PC가 꺼져 있거나 로그아웃 상태면 예약 작업은 실행되지 않습니다.
+밤에 예약 작업이 돌게 하려면 두 가지를 확인합니다.
+
+- **절전 모드 끄기**: Windows 설정 → 시스템 → 전원 → "절전 모드로 전환"을 "안 함"으로 둡니다. 모니터는 꺼져도 됩니다.
+- **재부팅 뒤 로그인**: 게이트웨이는 PC에 로그인할 때 켜집니다. 밤사이 Windows 업데이트로 재부팅되면 로그인할 때까지 예약 작업이 멈춥니다. 월요일 아침에 `topics` 폴더에 새 파일이 없으면 `hermes -p symedi-claude cron list`로 상태를 확인하세요.
 
 ## 12. 업데이트
 
