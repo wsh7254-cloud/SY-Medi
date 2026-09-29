@@ -1,0 +1,14 @@
+name: symedi-claude
+version: 0.1.2
+description: "SY-Medi 약국 콘텐츠 작업 보조: 공식 자료 조사, 근거 장부, 마스터 원고, 플랫폼별 초안, 광고 표현 점검. 발행은 하지 않음"
+author: "SY-Medi"
+license: "Proprietary"
+
+env_requires:
+  - name: ANTHROPIC_API_KEY
+    description: "Anthropic Console에서 발급한 API 키 (사용량 과금. Claude 웹 구독과 별개)"
+    required: true
+  - name: LM_API_KEY
+    description: "LM Studio 서버 인증을 켠 경우에만 입력 (기본은 비워 둠)"
+    required: false
+    default: ""

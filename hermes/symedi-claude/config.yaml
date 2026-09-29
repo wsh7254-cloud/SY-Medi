@@ -1,0 +1,54 @@
+# symedi-claude: SY-Medi 약국 콘텐츠 작업 보조 프로필
+#
+# 모델 등급 (설계서 docs/content-system-design.md 의 등급과 같음)
+#   대화 기본       SOL·SONNET급 (L2)  Claude Sonnet 5
+#   근거 조사 때만  OPUS급 (L3)        Claude Opus 5.5  → 채팅에서 /model 로 전환
+#   보조 작업       LUNA·HAIKU급 (L1)  Claude Haiku 4.5 (대화 요약·제목·명령 승인 판단)
+#   이미지 글자 받아쓰기는 LOCAL(Qwen, LM Studio)로 바꿀 수 있음 → README 7단계
+#
+# 이 프로필은 SNS에 발행하지 않습니다. 브라우저·화면 조작·터미널 도구를 꺼 둡니다.
+
+model:
+  provider: "anthropic"
+  default: "claude-sonnet-5"
+
+# 채팅에서 /model opus, /model sonnet, /model haiku 로 전환하거나
+# 새 대화를 hermes -p symedi-claude chat --model opus 처럼 시작할 때 쓰는 이름
+model_aliases:
+  opus:
+    model: "claude-opus-5-5"
+    provider: "anthropic"
+  sonnet:
+    model: "claude-sonnet-5"
+    provider: "anthropic"
+  haiku:
+    model: "claude-haiku-4-5"
+    provider: "anthropic"
+
+agent:
+  reasoning_effort: "medium"
+  disabled_toolsets:
+    - browser
+    - computer_use
+    - terminal
+    - image_gen
+    - video_gen
+    - tts
+    - delegation
+
+auxiliary:
+  compression:
+    provider: "anthropic"
+    model: "claude-haiku-4-5"
+  title_generation:
+    provider: "anthropic"
+    model: "claude-haiku-4-5"
+  approval:
+    provider: "anthropic"
+    model: "claude-haiku-4-5"
+
+approvals:
+  mode: manual
+  cron_mode: deny
+
+timezone: "Asia/Seoul"
