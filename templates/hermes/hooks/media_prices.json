@@ -1,0 +1,9 @@
+{
+  "_설명": "숫자는 반드시 제작 서비스(FAL, Kling, BytePlus 등)의 공식 가격표에서 확인해 직접 입력하세요. 비워 두면(null) 예상 비용을 '단가 미입력'으로 표시합니다.",
+  "currency": "USD",
+  "video_per_second": null,
+  "image_per_image": null,
+  "daily_approval_request_limit": 3,
+  "price_checked_on": "YYYY-MM-DD",
+  "price_source_url": ""
+}
